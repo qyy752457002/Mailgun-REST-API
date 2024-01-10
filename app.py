@@ -21,6 +21,19 @@ def create_app(db_url=None):
     app = Flask(__name__)
     load_dotenv()
 
+    '''
+    您贴出的代码片段似乎是用来建立与 Redis 服务器的连接，并用这个连接创建一个用于处理电子邮件任务的作业队列。
+    下面是代码的详细解释：
+
+    1. connection = redis.from_url(os.getenv("REDIS_URL")): 这行代码使用 redis 库根据环境变量 REDIS_URL 的值来创建一个 Redis 连接。
+    这个环境变量应该包含 Redis 服务器的完整 URL，包括协议、用户名、密码、主机名、端口号和数据库编号（如果需要）。
+
+    2. app.queue = Queue("emails", connection=connection): 这行代码使用前面创建的 Redis 连接来初始化一个名为 "emails" 的队列，
+    并将这个队列作为 app 对象的 queue 属性。
+
+    这样做的目的是为了在应用程序的其他部分能够使用 app.queue 来加入电子邮件任务。
+    '''
+
     # 建立connection
     connection = redis.from_url(
         os.getenv("REDIS_URL")

@@ -87,6 +87,20 @@ class Item(MethodView):
         db.session.add(item)
         db.session.commit()
 
+        ''' 
+        {
+            "id": 1,
+            "name": "Example Item",
+            "price": 19.99,
+            "store": {
+                // 这里是 store 对象的详细信息，根据 PlainStoreSchema 结构
+            },
+            "tags": [
+                // 这里是与该 item 相关联的 tags 列表
+            ]
+        }
+        
+        '''
         # 由于方法被 @blp.response(200, ItemSchema) 装饰器装饰，
         # Flask-Smorest 将会自动使用 ItemSchema 对 item 实例进行序列化，
         # 并将序列化后的 JSON 数据作为 HTTP 响应的主体返回给客户端。

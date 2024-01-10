@@ -5,3 +5,8 @@ __pycache__
 data.db
 *.pyc 
 .DS_Store
+建立docker image 指令.txt
+更新数据库里面 表 指令.txt
+生成migrations 目录 指令.txt
+运行docker 内 rq worker 指令.txt
+运行docker 内 的 app 指令.txt
