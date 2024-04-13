@@ -6,27 +6,22 @@ from db import db
 from models import TagModel, StoreModel, ItemModel
 from schemas import TagSchema, TagAndItemSchema
 
-'''
-在您的代码中，`blp = Blueprint("Items", "items", description="Operations on items")` 创建了一个 Flask-Smorest 蓝图。
-这是 Flask-Smorest（一个 Flask 扩展）用于构建 REST API 的特性。以下是这行代码各部分的解释：
+''' 
+    "Tags": 这是蓝图的名字，用于标识蓝图。这个名字在整个应用中需要是唯一的。
+             在注册到 Flask 应用时，它将用于区分不同的蓝图。
 
-1. **创建蓝图实例**:
-   - `blp` 是创建的蓝图实例的变量名。
-      这个实例将用于注册相关的视图函数或类。
+     __name__: 这通常用于指定蓝图所在的模块或包。
+               这有助于 Flask 找到相对于该蓝图的资源位置，如模板文件夹或静态文件夹。
+               传递 __name__ 是常见的做法，它告诉 Flask 去查找和当前模块同名的模块或包。
 
-2. **Blueprint 类**:
-   - `Blueprint` 是 Flask-Smorest 中用于创建蓝图的类。
-      蓝图在 Flask 应用中用于组织和分组功能，类似于 Flask 原生的 `Blueprint`。
+    description="Operations on tags": 这是对蓝图的描述。
 
-3. **参数**:
-   - `"Tags"` 是蓝图的名字。这个名字通常用于在 Flask 应用中引用或注册蓝图。
-   - `"tags"` 是蓝图的端点前缀。这通常会作为 URL 前缀用于此蓝图下的所有路由。
-               例如，如果您在此蓝图下注册了一个 `/tag` 路由，那么完整的 URL 将是 `/tags/list`。
-
-   - `description="Operations on items"` 设置了蓝图的描述，这在自动生成 API 文档时特别有用，因为它提供了关于蓝图功能的上下文信息。
+                                       在使用 flask_smorest 扩展时，
+                                       这个描述可以用于自动生成的 API 文档中，
+                                       作为该蓝图功能的简介。
 '''
 
-blp = Blueprint("Tags", "tags", description="Operations on tags")
+blp = Blueprint("Tags", __name__, description="Operations on tags")
 
 @blp.route("/store/<int:store_id>/tag")
 class TagsInStore(MethodView):

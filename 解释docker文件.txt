@@ -1,0 +1,34 @@
+这是一段 Dockerfile 的内容，用于创建一个 Docker 容器，该容器设置了一个 Python 环境，并且准备运行一个 Flask 应用。
+
+1. `FROM python:3.10`
+   - 这行指定了容器的基础镜像。在这里，基础镜像是 Python 3.10 的官方镜像，它包含了预安装的 Python 3.10。
+
+2. `EXPOSE 5000`
+   - 这行指示 Docker 在容器运行时对外暴露端口 5000。
+     Flask 默认在这个端口上运行，这意味着你可以通过容器的 5000 端口访问 Flask 应用。
+
+3. `WORKDIR /app`
+   - 设置工作目录为 `/app`。这是容器内部文件系统中的一个目录。
+     Docker 会在这个目录下执行后续的 `COPY` 和 `CMD` 指令。
+
+4. `COPY ./requirements.txt requirements.txt`
+   - 这行将宿主机（你的电脑或构建环境）上当前目录中的 `requirements.txt` 文件复制到容器中的 /app/requirements.txt。
+     这里明确指定了目标文件名，即使在容器中也使用同样的文件名 requirements.txt。
+     这个 `requirements.txt` 文件列出了 Flask 应用所需的 Python 依赖。
+
+5. `RUN pip install --no-cache-dir --upgrade -r requirements.txt`
+   - 运行 `pip install` 命令来安装 `requirements.txt` 文件中指定的依赖。
+     `--no-cache-dir` 选项告诉 pip 不要存储任何缓存，
+
+这可以减小构建容器的大小。`--upgrade` 选项确保安装依赖的最新版本。
+
+6. `COPY . .`
+   - 将宿主机当前目录下的所有文件复制到容器的工作目录（即 `/app`）。
+     这通常包括应用的所有代码、模板和静态文件。
+
+7. `CMD ["flask", "run", "--host", "0.0.0.0"]`
+   - 这行指定了容器启动时默认执行的命令。这里使用的命令是 `flask run`，它会启动 Flask 服务器。
+     `--host`, "0.0.0.0" 使得 Flask 服务器对所有网络接口可用，这样不仅仅是 Docker 容器内部可以访问，其他机器也能通过容器的 IP 地址访问 Flask 应用。
+
+综合来看，这段 Dockerfile 为 Flask 应用提供了一个隔离的、预设的 Python 环境。
+一旦 Docker 容器被构建并运行，Flask 应用将开始监听端口 5000，等待接收请求。

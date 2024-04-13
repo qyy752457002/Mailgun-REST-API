@@ -1,1 +1,1 @@
-docker run -w /app rest-api-recording-email sh -c "rq worker -u rediss://red-cmcdk6ud3nmc73d9v2bg:JWTT3EnitqDeSov3AjqlSptGInJplNCA@singapore-redis.render.com:6379 emails"
+docker run -w /app krismile98/rest-api-recording-email:1.0 sh -c "rq worker -u rediss://red-cod9bka0si5c738rnm6g:bQD5YMT9scUeQwwa0Ph1f5TdVG2BlFuK@oregon-redis.render.com:6379 emails"

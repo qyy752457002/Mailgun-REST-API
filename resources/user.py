@@ -21,28 +21,22 @@ from schemas import UserSchema, UserRegisterSchema
 from blocklist import BLOCKLIST
 from tasks import send_user_registration_email
 
+''' 
+    "Users": 这是蓝图的名字，用于标识蓝图。这个名字在整个应用中需要是唯一的。
+             在注册到 Flask 应用时，它将用于区分不同的蓝图。
 
-'''
-在您的代码中，`blp = Blueprint("Items", "items", description="Operations on items")` 创建了一个 Flask-Smorest 蓝图。
-这是 Flask-Smorest（一个 Flask 扩展）用于构建 REST API 的特性。以下是这行代码各部分的解释：
+     __name__: 这通常用于指定蓝图所在的模块或包。
+               这有助于 Flask 找到相对于该蓝图的资源位置，如模板文件夹或静态文件夹。
+               传递 __name__ 是常见的做法，它告诉 Flask 去查找和当前模块同名的模块或包。
 
-1. **创建蓝图实例**:
-   - `blp` 是创建的蓝图实例的变量名。
-      这个实例将用于注册相关的视图函数或类。
+    description="Operations on users": 这是对蓝图的描述。
 
-2. **Blueprint 类**:
-   - `Blueprint` 是 Flask-Smorest 中用于创建蓝图的类。
-      蓝图在 Flask 应用中用于组织和分组功能，类似于 Flask 原生的 `Blueprint`。
-
-3. **参数**:
-   - `"Users"` 是蓝图的名字。这个名字通常用于在 Flask 应用中引用或注册蓝图。
-   - `"users"` 是蓝图的端点前缀。这通常会作为 URL 前缀用于此蓝图下的所有路由。
-               例如，如果您在此蓝图下注册了一个 `/users` 路由，那么完整的 URL 将是 `/users/list`。
-
-   - `description="Operations on items"` 设置了蓝图的描述，这在自动生成 API 文档时特别有用，因为它提供了关于蓝图功能的上下文信息。
+                                       在使用 flask_smorest 扩展时，
+                                       这个描述可以用于自动生成的 API 文档中，
+                                       作为该蓝图功能的简介。
 '''
 
-blp = Blueprint("Users", "users", description="Operations on users")
+blp = Blueprint("Users", __name__, description="Operations on users")
 
 @blp.route("/register")
 class UserRegister(MethodView):
@@ -75,7 +69,7 @@ class UserRegister(MethodView):
 @blp.route("/login")
 class UserLogin(MethodView):
     @blp.arguments(UserSchema)
-    def post(self, user_data):
+    def post(self, user_data): 
         user = UserModel.query.filter(UserModel.username == user_data["username"]).first()
 
         if user and pbkdf2_sha256.verify(user_data["password"], user.password):
@@ -88,9 +82,13 @@ class UserLogin(MethodView):
 @blp.route("/refresh")
 class TokenRefresh(MethodView):
     @jwt_required(refresh = True)
-    def post(self):
+    def post(self): 
         current_user = get_jwt_identity()
         new_token = create_access_token(identity = current_user, fresh = False)
+        # get_jwt() 返还一个 字典
+        # 获取当前请求的 JWT
+        # "jti" 是 JWT 的一个标准字段，代表 "JWT ID"。这是一个唯一标识符，用于标识该令牌的实例
+        # 这行代码的作用是从当前请求的 JWT 中提取 jti 值，并将其存储在变量 jti 中
         jti = get_jwt()["jti"]
         BLOCKLIST.add(jti)
         return {"access_token": new_token}
@@ -100,6 +98,9 @@ class UserLogout(MethodView):
     @jwt_required()
     def post(self):
         # get_jwt() 返还一个 字典
+        # 获取当前请求的 JWT
+        # "jti" 是 JWT 的一个标准字段，代表 "JWT ID"。这是一个唯一标识符，用于标识该令牌的实例
+        # 这行代码的作用是从当前请求的 JWT 中提取 jti 值，并将其存储在变量 jti 中
         jti = get_jwt()["jti"]
         BLOCKLIST.add(jti)
         return {"message": "Successfully logged out"}, 200

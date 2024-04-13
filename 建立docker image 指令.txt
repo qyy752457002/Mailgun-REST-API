@@ -1,3 +1,11 @@
-docker build -t rest-api-recording-email .
+docker build -t krismile98/rest-api-recording-email:1.0 .
 
-.: docker文件在当前的目录里面
+---------------------------------------------------------------
+
+- krismile98：Docker Hub 用户名
+
+- rest-api-recording-email:1.0：为镜像选择的名称
+
+- 1.0: 镜像版本号 (tag)
+
+- .: docker文件在当前的目录里面

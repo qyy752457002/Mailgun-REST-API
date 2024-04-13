@@ -3,7 +3,6 @@ import requests
 import jinja2
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 domain = os.getenv("MAILGUN_DOMAIN")

@@ -29,7 +29,6 @@ from marshmallow import Schema, fields
 通过预先定义数据的结构和规则，schema 减少了出错的可能性，并确保了数据的一致性和完整性。
 
 '''
-
 # 序列化: Python 数据类型 转换为 JSON
 # 反序列化: JSON 转换为 Python 数据类型
 
